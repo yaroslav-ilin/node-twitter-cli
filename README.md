@@ -55,3 +55,7 @@ At the same time there are a few little exceptions to this rule, as author consi
 ## TODO
 1. Add option to request Application-only Bearer token from command line.
 2. Make streaming possible using this tool.
+
+## Contribution
+Please feel free to fork, pull request, discuss, share your ideas and raise issues.
+Any feedback is welcome!

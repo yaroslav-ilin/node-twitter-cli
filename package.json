@@ -1,0 +1,19 @@
+{
+  "name": "twi-cli",
+  "version": "0.3.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "twi-cli": "bin/twitter-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yaroslav Ilin <nilfalse@yandex.com>",
+  "dependencies": {
+    "big-integer": "^1.6.17",
+    "twitter": "^1.7.0",
+    "yargs": "^6.6.0"
+  }
+}

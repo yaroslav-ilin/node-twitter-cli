@@ -11,12 +11,12 @@ You can use it then from anywhere on your command line.
 ## Examples of usage
 To issue a `GET` request to `statuses/user_timeline` endpoint to get 1 latest tweet from a user with id 62569723 you may run the following command:
 ```
-$ twitter-cli statuses user_timeline --count=1 --trim_user=1 --user_id=62569723
+$ twi-cli statuses user_timeline --count=1 --trim_user=1 --user_id=62569723
 ```
 
 You may fetch all tweets from that same user recursively with only one additional arguments `--recursive`:
 ```
-$ twitter-cli statuses user_timeline --recursive --count=200 --trim_user=1 --user_id=62569723
+$ twi-cli statuses user_timeline --recursive --count=200 --trim_user=1 --user_id=62569723
 ```
 
 

@@ -20,7 +20,7 @@ function normalize(o) {
 }
 
 function serialize(array) {
-    if (!array && !array.length) {
+    if (!array || !array.length) {
         return array;
     }
     return array

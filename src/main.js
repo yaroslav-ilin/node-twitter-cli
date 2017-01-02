@@ -11,10 +11,10 @@ function print(response) {
         });
     } else {
         if (print.isFirstOutput) {
-            console.log(response);
+            console.log(JSON.stringify(response));
             print.isFirstOutput = false;
         } else if (response.length !== 0) {
-            console.log(response);
+            console.log(JSON.stringify(response));
             print.isFirstOutput = false;
         }
     }
@@ -24,10 +24,12 @@ print.isFirstOutput = true;
 function run({ endpoint, method, payload, settings }) {
     return twitter[method](endpoint, payload).then(function(response) {
         const result = utils.serialize(response);
-        print(result);
-
         if (settings.recursive) {
-            return recursive.strategy({ endpoint, method, payload, settings }, result, run);
+            const r = recursive({ endpoint, method, payload, settings }, result, run);
+            print(r.print(result));
+            return r.strategy();
+        } else {
+            print(result);
         }
     }, function(errors) {
         console.error('Error!');

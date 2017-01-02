@@ -18,7 +18,12 @@ You may fetch all tweets from that same user recursively with only one additiona
 ```
 $ twi-cli statuses user_timeline --recursive --count=200 --trim_user=1 --user_id=62569723
 ```
+This magical flag `--recursive` (or `-r` for short alias) will handle [cursoring](https://dev.twitter.com/overview/api/cursoring) for you as well.
 
+Here is how to lookup `user_id` for some user by a `screen_name`:
+```
+$ twi-cli users show --screen_name=nilfalse
+```
 
 ## Authentication
 For now there is only one way to provide the tool with Twitter credentials – use environment variables.
@@ -38,12 +43,15 @@ You may read more about [Application-only authentication](https://dev.twitter.co
 ## Output
 The tool tries its best to keep its output as similar to the original Twitter response as possible so you are not enforced to learn one more layer of abstraction.
 At the same time there are a few little exceptions to this rule, as author considers these to be useful for the most cases:
+
 1. Any `id`s get replaced with their `id_str` counterparts (with redundant `id_str` being completely stripped from output). This includes all fields ending with `id_str`, for instance `in_reply_to_status_id` gets always replaced with value from `in_reply_to_status_id_str` (even if it is `null`).
 2. All fields with name `created_at` (including nested at any level of deep) get parsed into ISO 8601 compliant string. For instance, `2017-01-01T08:38:40Z`.
 3. Most of the time Twitter response is an array of some entities.
-   For the purposes of extensibility (only) top-level arrays get printed without enclosing square brackets `[]` and items *are not* separated by commas `,`.
+   For the purposes of extensibility top-level arrays get printed without enclosing square brackets `[]` and items *are not* separated by commas `,`.
    Instead, every item is put on its own one line, so the next item is the next line and so forth.
    This must eventually simplify streaming once the code for it is ready.
+4. Cursored responses in `--recursive` mode will output content of their `ids` field as the cursors are already handled by `twi-cli` at that moment.
 
 ## TODO
-Make streaming possible using this tool.
+1. Add option to request Application-only Bearer token from command line.
+2. Make streaming possible using this tool.

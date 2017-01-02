@@ -2,9 +2,44 @@ const bigInt = require('big-integer');
 
 
 const recursiveStrategies = {
-    '@empty': new Function(),
     'statuses/user_timeline': maxIdRecursiveStrategy
 };
+
+function identity(o) {
+    return o;
+}
+
+function recursive({ endpoint, method, payload, settings }, result, run) {
+    if (result.hasOwnProperty('next_cursor_str')) {
+        return {
+            strategy: () => cursorBasedRecursiveStrategy('ids').apply(this, arguments),
+            print: result => result.ids
+        };
+    }
+    if (recursiveStrategies.hasOwnProperty(endpoint)) {
+        return {
+            strategy: () => maxIdRecursiveStrategy.apply(this, arguments),
+            print: identity
+        };
+    }
+    return {
+        strategy: run,
+        print: identity
+    };
+}
+
+function cursorBasedRecursiveStrategy(key) {
+    return function({ endpoint, method, payload, settings }, result, run) {
+        if (result.next_cursor_str === '0') {
+            return;
+        }
+        const newPayload = Object.assign({}, payload, {
+            cursor: result.next_cursor_str,
+            count: 5000
+        });
+        return run({ endpoint, method, payload: newPayload, settings });
+    }
+}
 
 function maxIdRecursiveStrategy({ endpoint, method, payload, settings }, result, run) {
     if (result.length === 0) {
@@ -18,10 +53,4 @@ function maxIdRecursiveStrategy({ endpoint, method, payload, settings }, result,
     return run({ endpoint, method, payload: newPayload, settings });
 }
 
-function strategy(params, result, run) {
-    const s = recursiveStrategies[params.endpoint] || recursiveStrategies['@empty'];
-
-    return s(params, result, run);
-}
-
-module.exports = { strategy };
+module.exports = recursive;

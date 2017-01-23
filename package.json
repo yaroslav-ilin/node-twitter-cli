@@ -1,6 +1,6 @@
 {
   "name": "twi-cli",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "",
   "bin": {
     "twi-cli": "bin/twitter-cli.js"
@@ -22,5 +22,9 @@
     "big-integer": "^1.6.17",
     "twitter": "^1.7.0",
     "yargs": "^6.6.0"
+  },
+  "yargs": {
+    "parse-numbers": false
   }
 }
+

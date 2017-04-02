@@ -33,7 +33,11 @@ function run({ endpoint, method, payload, settings }) {
         }
     }, function(errors) {
         console.error('Error!');
-        errors.forEach(e => console.error(e));
+        if (Array.isArray(errors)) {
+            errors.forEach(e => console.error(e));
+        } else {
+            console.error(errors);
+        }
         process.exit(1);
     });
 }
